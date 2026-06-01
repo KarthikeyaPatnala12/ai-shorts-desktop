@@ -1,0 +1,24 @@
+{
+  "apiBaseUrl": "http://127.0.0.1:8000",
+  "databaseUrl": "sqlite:///./data/ai_shorts.sqlite3",
+  "workspaceDir": "./workspace",
+  "exportsDir": "./exports",
+  "tempDir": "./temp",
+  "downloadsDir": "./downloads",
+  "whisper": {
+    "model": "base",
+    "device": "cpu",
+    "computeType": "int8"
+  },
+  "clips": {
+    "count": 5,
+    "minSeconds": 45,
+    "maxSeconds": 180
+  },
+  "language": {
+    "source": "auto",
+    "captionMode": "source",
+    "target": "en",
+    "downloadProfilesOnDemand": true
+  }
+}

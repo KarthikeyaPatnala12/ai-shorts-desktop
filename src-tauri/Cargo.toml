@@ -1,0 +1,20 @@
+[package]
+name = "ai-shorts-desktop"
+version = "0.1.0"
+description = "Local desktop MVP for AI-generated short video clips"
+authors = ["AI Shorts Desktop Contributors"]
+edition = "2021"
+
+[lib]
+name = "ai_shorts_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-shell = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
