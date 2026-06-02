@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "AI Shorts Desktop",
-  description: "Local desktop MVP for turning long videos into short clips."
+  description: "Local desktop app for turning long videos into short clips."
 };
 
 export default function RootLayout({

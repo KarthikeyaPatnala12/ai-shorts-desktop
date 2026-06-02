@@ -1,6 +1,6 @@
-# AI Shorts Repurposing Desktop MVP
+# AI Shorts Repurposing Desktop
 
-Local-first desktop app for turning a long video into 3-5 vertical short clips with burned-in captions. The MVP keeps all media, transcripts, project data, and exports on the user's machine.
+Local-first desktop app for turning a long video into 3-5 vertical short clips with burned-in captions. The app keeps all media, transcripts, project data, and exports on the user's machine.
 
 ## Stack
 
@@ -217,10 +217,10 @@ The hardware profile endpoint detects CPU, NVIDIA CUDA availability, or Apple Si
 
 ## Current Limitations
 
-- Processing is synchronous, so the first MVP request blocks until all clips are rendered.
+- Processing is synchronous, so the first request blocks until all clips are rendered.
 - The heuristic scorer is intentionally simple and does not call an LLM.
 - Captions are generated as ASS with karaoke-style active text highlighting, pop/fade motion, SF Pro Display from `sf-pro-display/` when present, and bundled Montserrat Bold fallback from `assets/fonts/`.
-- Existing SQLite schemas are not migrated; delete `data/ai_shorts.sqlite3` during early MVP iteration if models change.
+- Existing SQLite schemas are not migrated; delete `data/ai_shorts.sqlite3` during early iteration if models change.
 
 ## Next Steps
 

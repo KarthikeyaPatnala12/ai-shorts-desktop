@@ -1,1 +1,1 @@
-"""FastAPI backend for the local AI Shorts desktop MVP."""
+"""FastAPI backend for the local AI Shorts desktop app."""
