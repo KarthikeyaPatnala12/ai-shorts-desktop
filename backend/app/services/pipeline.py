@@ -1,3 +1,4 @@
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from uuid import uuid4
 
@@ -5,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from backend.app import models
 from backend.app.config import get_settings
-from backend.app.schemas import ProcessVideoRequest, ProcessVideoResponse, ProcessedClip, TranscriptSegment
+from backend.app.schemas import ProcessVideoRequest, ProcessVideoResponse, ProcessedClip, TranscriptSegment, ClipCandidate
 from backend.app.services.clip_detection import detect_clips
 from backend.app.services.context_analysis import build_video_context, describe_context
 from backend.app.services.language_profiles import prepare_caption_segments
@@ -59,8 +60,7 @@ def process_video(db: Session, payload: ProcessVideoRequest) -> ProcessVideoResp
             context=video_context,
         )
 
-        processed_clips: list[ProcessedClip] = []
-        for index, candidate in enumerate(candidates, start=1):
+        def process_candidate(index: int, candidate: ClipCandidate) -> tuple[int, ClipCandidate, Path, Path]:
             clip_segments = _segments_for_clip(
                 transcript.segments,
                 candidate.start_seconds,
@@ -90,7 +90,17 @@ def process_video(db: Session, payload: ProcessVideoRequest) -> ProcessVideoResp
                 subtitle_path=subtitle_path,
                 output_path=render_path,
             )
+            return index, candidate, subtitle_path, render_path
 
+        with ThreadPoolExecutor(max_workers=3) as executor:
+            futures = []
+            for index, candidate in enumerate(candidates, start=1):
+                futures.append(executor.submit(process_candidate, index, candidate))
+
+            results = [future.result() for future in futures]
+
+        processed_clips: list[ProcessedClip] = []
+        for index, candidate, subtitle_path, render_path in results:
             clip = models.Clip(
                 video_id=video.id,
                 start_seconds=candidate.start_seconds,
